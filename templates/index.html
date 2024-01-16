@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COVID-19 Analysis</title>
+  </head>
+  <body>
+    <h1>COVID-19 Analysis</h1>
+
+    <h2>Highest Affected Areas</h2>
+    <p>
+      Highest affected area: {{ highest_affected.index[0] }} - {{
+      highest_affected.iloc[0] }}
+    </p>
+    <p>
+      Second highest affected area: {{ second_highest_affected.index[0] }} - {{
+      second_highest_affected }}
+    </p>
+
+    <h2>Mortality vs. Recovery Ratio</h2>
+    <p>Mortality vs. Recovery Ratio: {{ mortality_recovery_ratio }}</p>
+
+    <h2>General Tendencies</h2>
+    <table border="1">
+      <tr>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Count</th>
+      </tr>
+      {% for (gender, age), count in age_gender_tendencies.items() %}
+      <tr>
+        <td>{{ gender }}</td>
+        <td>{{ age }}</td>
+        <td>{{ count }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <h2>Mortality Rate Among Different Age Groups</h2>
+    <table border="1">
+      <tr>
+        <th>Age</th>
+        <th>Mortality Rate</th>
+      </tr>
+      {% for age, rate in mortality_rate_age_groups.items() %}
+      <tr>
+        <td>{{ age }}</td>
+        <td>{{ rate }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <h2>KMeans Clustering Results (Dataset 1)</h2>
+    {% for cluster_id, cluster_data in kmeans_clusters_1.groupby('cluster') %}
+    <h3>Cluster {{ cluster_id }}</h3>
+    <ul>
+      {% for index, row in cluster_data.iterrows() %}
+      <li>{{ row['Province/State'] }}, {{ row['Country/Region'] }}</li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+
+    <h2>KMeans Clustering Results (Dataset 2)</h2>
+    {% for cluster_id, cluster_data in kmeans_clusters_2.groupby('cluster') %}
+    <h3>Cluster {{ cluster_id }}</h3>
+    <ul>
+      {% for index, row in cluster_data.iterrows() %}
+      <li>{{ row['location'] }}, {{ row['country'] }}</li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+  </body>
+</html>
